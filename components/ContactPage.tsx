@@ -7,10 +7,12 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
+    // We include bot-field in state to ensure it's controlled, even though users won't see it.
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        message: ''
+        message: '',
+        'bot-field': '' // Honeypot field state
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -26,14 +28,24 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
         e.preventDefault();
         setIsSubmitting(true);
 
+        // Subject line for the email notification
+        const subject = `New Inquiry from ${formData.name || 'Visitor'} - Zero Geometry`;
+
+        // Prepare payload:
+        // 1. form-name is required by Netlify
+        // 2. bot-field is the honeypot
+        // 3. subject is for the email header
+        // 4. ...formData contains name, email, message
+        const payload = {
+            "form-name": "contact",
+            "subject": subject,
+            ...formData
+        };
+
         fetch("/", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: encode({ 
-                "form-name": "contact", 
-                "subject": `New Inquiry from ${formData.name} - Zero Geometry`,
-                ...formData 
-            })
+            body: encode(payload)
         })
         .then(() => {
             setIsSubmitting(false);
@@ -41,11 +53,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             // Wait 2 seconds then close
             setTimeout(() => {
                  onBack();
-            }, 2000);
+            }, 3000);
         })
         .catch(error => {
-            console.error(error);
-            alert("Error sending message. Please try again or email us directly.");
+            console.error("Form Submission Error:", error);
+            alert("Error sending message. Please try again or email us directly at hello@zerogeometry.com");
             setIsSubmitting(false);
         });
     };
@@ -89,14 +101,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                             className="space-y-6 md:space-y-8" 
                             onSubmit={handleSubmit}
                             name="contact"
+                            method="POST"
                             data-netlify="true"
                             data-netlify-honeypot="bot-field"
                          >
-                             {/* Hidden inputs for Netlify */}
+                             {/* Hidden inputs for Netlify - Good for DOM inspection consistency */}
                              <input type="hidden" name="form-name" value="contact" />
                              <input type="hidden" name="subject" value={`New Inquiry from ${formData.name || 'Visitor'} - Zero Geometry`} />
-                             <div hidden>
-                                <input name="bot-field" onChange={handleChange} />
+                             
+                             {/* Honeypot Field - Hidden from humans, visible to bots */}
+                             <div className="hidden">
+                                <label>Don't fill this out if you're human: <input name="bot-field" value={formData['bot-field']} onChange={handleChange} /></label>
                              </div>
 
                              <div className="group">

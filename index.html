@@ -59,12 +59,19 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
-    <!-- Hidden form for Netlify detection -->
-    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <!-- 
+      Netlify Form Detection 
+      This static form is required for Netlify to recognize the form exists at build time.
+      It mirrors the fields found in the React component.
+    -->
+    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
       <input type="email" name="email" />
       <textarea name="message"></textarea>
+      <!-- Subject is dynamically populated in React, but defined here -->
       <input type="hidden" name="subject" />
+      <!-- Honeypot field -->
+      <input name="bot-field" />
     </form>
     
     <div id="root"></div>
