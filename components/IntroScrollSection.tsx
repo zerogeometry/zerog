@@ -22,8 +22,14 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [isNightTime, setIsNightTime] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Mobile Check
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
     // Check if current time is between 9:30 PM (21:30) and 2:30 AM (02:30)
     const checkTime = () => {
       const now = new Date();
@@ -59,6 +65,7 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
     }
     return () => {
       scrollEl?.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
       clearInterval(timer);
     };
   }, [scrollContainerRef]);
@@ -82,7 +89,11 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
   // Button fades in from 0.80 to 0.90 (Multiplying by 10)
   const buttonOpacity = Math.max(0, Math.min(1, (progress - buttonTrigger) * 10));
 
-  const baseFontSize = 'clamp(1.66rem, 4.1vw, 4.1rem)';
+  // Font Size Logic: Reduced lower bound for mobile to prevent overflow
+  // Mobile: 1.1rem min, Desktop: 1.66rem min
+  const baseFontSize = isMobile 
+    ? 'clamp(1.1rem, 5vw, 1.5rem)' 
+    : 'clamp(1.66rem, 4.1vw, 4.1rem)';
 
   return (
     <section 
@@ -90,8 +101,8 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
       // Increased height to 700vh to allow for slower scroll and the delay buffer
       className="relative h-[700vh] w-full overflow-visible z-10 snap-start bg-[#f3f4f6]"
     >
-      {/* Sticky Viewport */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-8 md:px-[100px] overflow-hidden">
+      {/* Sticky Viewport - Switched to 100dvh to handle mobile browser bars correctly */}
+      <div className="sticky top-0 h-[100dvh] w-full flex flex-col items-center justify-center px-8 md:px-[100px] overflow-hidden">
         {/* Dynamic Mesh Grid Background */}
         <InteractiveGrid />
         

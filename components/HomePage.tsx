@@ -154,7 +154,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
          {remainingReels.map((reel, index) => (
            <div 
              key={reel.id} 
-             className="snap-center h-screen w-full relative group border-b border-white/20 last:border-0 overflow-hidden"
+             // Switched h-screen to h-[100dvh] for mobile consistency
+             className="snap-center h-[100dvh] w-full relative group border-b border-white/20 last:border-0 overflow-hidden"
              data-cursor-hover="true"
              data-cursor-preview={reel.img}
            >
@@ -194,7 +195,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <WorkMosaic onNavigate={onNavigate} />
 
       {/* Footer */}
-      <footer className="snap-start h-screen relative bg-black text-white py-8 px-8 md:px-[100px] flex flex-col justify-between border-t border-white/10 overflow-hidden">
+      {/* Switched h-screen to h-[100dvh] to prevent footer content getting cut off by mobile UI */}
+      <footer className="snap-start h-[100dvh] relative bg-black text-white py-8 px-8 md:px-[100px] flex flex-col justify-between border-t border-white/10 overflow-hidden">
         {/* Black Hole Game Background */}
         <BlackHoleCanvas />
 
@@ -203,7 +205,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <div className="mb-8 md:mb-0 pointer-events-auto">
                 <h2 className="text-4xl md:text-7xl font-medium mb-4 tracking-tighter mix-blend-difference">Join our<br />Community</h2>
                 {/* Removed uppercase, keeping Title Case */}
-                <button className="mt-6 border border-white px-6 py-3 rounded-full text-xs tracking-widest hover:bg-[#ccff00] hover:text-black hover:border-[#ccff00] transition-colors bg-black/50 backdrop-blur-sm">
+                <button 
+                  onClick={() => onNavigate('contact')}
+                  className="mt-6 border border-white px-6 py-3 rounded-full text-xs tracking-widest hover:bg-[#ccff00] hover:text-black hover:border-[#ccff00] transition-colors bg-black/50 backdrop-blur-sm"
+                >
                     Start a Project
                 </button>
             </div>

@@ -100,10 +100,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
       className="relative h-[400vh] w-full bg-[#f3f4f6] snap-start"
     >
       {/* 
-        Sticky Viewport 
+        Sticky Viewport - Switched to 100dvh for proper mobile vertical centering
         Mobile: pt-24 ensures content clears the top navigation logo area.
       */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-start pt-24 lg:pt-0 lg:justify-center overflow-hidden">
+      <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-start pt-24 lg:pt-0 lg:justify-center overflow-hidden">
         {/* Background Grid */}
         <InteractiveGrid />
         

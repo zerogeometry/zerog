@@ -91,7 +91,8 @@ export const WorkMosaic: React.FC<WorkMosaicProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section className="h-screen w-full bg-[#0a0a0a] snap-start relative flex flex-col overflow-hidden">
+    // Switched h-screen to h-[100dvh]
+    <section className="h-[100dvh] w-full bg-[#0a0a0a] snap-start relative flex flex-col overflow-hidden">
       {/* Title - Visible on Desktop, Hidden on Mobile to allow scroll */}
       <div className={`absolute top-[140px] md:top-[160px] left-0 z-20 px-8 md:px-[100px] pointer-events-none ${isMobile ? 'hidden' : 'block'}`}>
         <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter mix-blend-difference">
