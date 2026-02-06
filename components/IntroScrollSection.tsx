@@ -89,10 +89,11 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
   // Button fades in from 0.80 to 0.90 (Multiplying by 10)
   const buttonOpacity = Math.max(0, Math.min(1, (progress - buttonTrigger) * 10));
 
-  // Font Size Logic: Reduced lower bound for mobile to prevent overflow
-  // Mobile: 1.1rem min, Desktop: 1.66rem min
+  // Font Size Logic: 
+  // Mobile: Reduced slightly to ensure "cutting edge innovation" fits (0.9rem - 1.3rem)
+  // Desktop: 1.66rem min
   const baseFontSize = isMobile 
-    ? 'clamp(1.1rem, 5vw, 1.5rem)' 
+    ? 'clamp(0.9rem, 4vw, 1.3rem)' 
     : 'clamp(1.66rem, 4.1vw, 4.1rem)';
 
   return (
@@ -101,13 +102,18 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
       // Increased height to 700vh to allow for slower scroll and the delay buffer
       className="relative h-[700vh] w-full overflow-visible z-10 snap-start bg-[#f3f4f6]"
     >
-      {/* Sticky Viewport - Switched to 100dvh to handle mobile browser bars correctly */}
-      <div className="sticky top-0 h-[100dvh] w-full flex flex-col items-center justify-center px-8 md:px-[100px] overflow-hidden">
+      {/* 
+        Sticky Viewport 
+        Mobile Fixes:
+        1. Added pb-32 to lift visual center up (counteracts bottom bars).
+        2. Reduced px-4 for more horizontal space.
+      */}
+      <div className="sticky top-0 h-[100dvh] w-full flex flex-col items-center justify-center px-4 pb-32 md:pb-0 md:px-[100px] overflow-hidden">
         {/* Dynamic Mesh Grid Background */}
         <InteractiveGrid />
         
         {/* Morphing Dots Layer - MOBILE ONLY (Behind text) */}
-        <div className="lg:hidden absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 mix-blend-multiply z-0">
+        <div className="lg:hidden absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 mix-blend-multiply z-0 pb-32">
            <DotMorph progress={progress} />
         </div>
         

@@ -154,8 +154,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
          {remainingReels.map((reel, index) => (
            <div 
              key={reel.id} 
-             // Switched h-screen to h-[100dvh] for mobile consistency
-             className="snap-center h-[100dvh] w-full relative group border-b border-white/20 last:border-0 overflow-hidden"
+             className="snap-center h-screen w-full relative group border-b border-white/20 last:border-0 overflow-hidden"
              data-cursor-hover="true"
              data-cursor-preview={reel.img}
            >
@@ -195,8 +194,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <WorkMosaic onNavigate={onNavigate} />
 
       {/* Footer */}
-      {/* Switched h-screen to h-[100dvh] to prevent footer content getting cut off by mobile UI */}
-      <footer className="snap-start h-[100dvh] relative bg-black text-white py-8 px-8 md:px-[100px] flex flex-col justify-between border-t border-white/10 overflow-hidden">
+      <footer className="snap-start h-screen relative bg-black text-white py-8 px-8 md:px-[100px] flex flex-col justify-between border-t border-white/10 overflow-hidden">
         {/* Black Hole Game Background */}
         <BlackHoleCanvas />
 
