@@ -173,7 +173,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
 
           {/* Right Column: Reel UI, Description, Button */}
           {/* Replaced justify-between with flex-col + gap to ensure fixed positioning */}
-          <div className="col-span-1 lg:col-span-5 flex flex-col justify-start items-center lg:items-start lg:pl-12 w-full z-20 relative mt-6 lg:mt-0">
+          {/* Mobile optimization: Reduced top margin from mt-6 to mt-2 to save vertical space */}
+          <div className="col-span-1 lg:col-span-5 flex flex-col justify-start items-center lg:items-start lg:pl-12 w-full z-20 relative mt-2 lg:mt-0">
              
              {/* Reel Container (16:9) - Fixed Aspect Ratio */}
              <div className="w-full aspect-video bg-black/5 rounded-lg overflow-hidden border border-black/10 relative shadow-2xl group bg-[#f3f4f6]">
@@ -193,11 +194,16 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
              </div>
 
              {/* Description - Fixed Height Container */}
-             {/* Fixed at 140px mobile / 160px desktop to prevent layout shifts. Overflow hidden implies no scrolling. */}
-             <div className="h-[140px] lg:h-[160px] w-full flex flex-col items-center lg:items-start text-center lg:text-left mt-6 lg:mt-8 justify-start">
+             {/* 
+                 Mobile Optimization: 
+                 1. Reduced height from 140px to 110px.
+                 2. Reduced top margin from mt-6 to mt-4.
+                 3. Reduced text size from text-sm to text-xs.
+             */}
+             <div className="h-[110px] lg:h-[160px] w-full flex flex-col items-center lg:items-start text-center lg:text-left mt-4 lg:mt-8 justify-start">
                   <h3 className="hidden lg:block text-2xl font-bold mb-3 text-black font-poppins">{SERVICES_DATA[activeIndex].title}</h3>
                   
-                  <p className="text-sm lg:text-base text-gray-700 font-mono leading-relaxed max-w-lg lg:border-l-2 pl-0 lg:pl-4 border-black/20">
+                  <p className="text-xs lg:text-base text-gray-700 font-mono leading-relaxed max-w-lg lg:border-l-2 pl-0 lg:pl-4 border-black/20">
                       {SERVICES_DATA[activeIndex].desc}
                   </p>
              </div>
