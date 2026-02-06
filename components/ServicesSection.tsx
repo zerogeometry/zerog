@@ -101,9 +101,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
     >
       {/* 
         Sticky Viewport - Switched to 100dvh for proper mobile vertical centering
-        Mobile: pt-14 (reduced from pt-24) ensures content shifts up to fit screen.
+        Mobile: pt-10 (reduced from pt-14) ensures content shifts up to fit screen.
       */}
-      <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-start pt-14 lg:pt-0 lg:justify-center overflow-hidden">
+      <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-start pt-10 lg:pt-0 lg:justify-center overflow-hidden">
         {/* Background Grid */}
         <InteractiveGrid />
         
@@ -196,14 +196,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
              {/* Description - Fixed Height Container */}
              {/* 
                  Mobile Optimization: 
-                 1. Reduced height from 140px to 110px.
-                 2. Reduced top margin from mt-6 to mt-4.
-                 3. Reduced text size from text-sm to text-xs.
+                 1. Reduced height to 80px (was 110px).
+                 2. Reduced top margin to mt-3 (was mt-4).
+                 3. Reduced text size to text-[10px] (was text-xs).
              */}
-             <div className="h-[110px] lg:h-[160px] w-full flex flex-col items-center lg:items-start text-center lg:text-left mt-4 lg:mt-8 justify-start">
+             <div className="h-[80px] lg:h-[160px] w-full flex flex-col items-center lg:items-start text-center lg:text-left mt-3 lg:mt-8 justify-start">
                   <h3 className="hidden lg:block text-2xl font-bold mb-3 text-black font-poppins">{SERVICES_DATA[activeIndex].title}</h3>
                   
-                  <p className="text-xs lg:text-base text-gray-700 font-mono leading-relaxed max-w-lg lg:border-l-2 pl-0 lg:pl-4 border-black/20">
+                  <p className="text-[10px] lg:text-base text-gray-700 font-mono leading-relaxed max-w-lg lg:border-l-2 pl-0 lg:pl-4 border-black/20">
                       {SERVICES_DATA[activeIndex].desc}
                   </p>
              </div>
