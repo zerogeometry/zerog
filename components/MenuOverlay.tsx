@@ -15,8 +15,6 @@ const MENU_ITEMS: { label: string; key: PageView; img: string }[] = [
   { label: 'About', key: 'about', img: 'https://lh3.googleusercontent.com/d/1DzY7lHG2a7VvqNqPeqygEHaIZ5p0Z5B0' },
   // new premium placeholder_00004.png
   { label: 'Our Services', key: 'services', img: 'https://lh3.googleusercontent.com/d/16oqETDgUYe5u1b8PZanPf75Z2uuZC4MX' },
-  // premium placeholder_00002.png
-  { label: 'Our Work', key: 'work', img: 'https://lh3.googleusercontent.com/d/1dAKVlcZ_nVZjda8XpeZ11HU7JMbwRd3e' },
   // new premium placeholder_00001.png
   { label: 'Contact', key: 'contact', img: 'https://lh3.googleusercontent.com/d/1TdWoZFxnjb_3ZwvsJpFEGPHk9RbOMnuH' },
 ];

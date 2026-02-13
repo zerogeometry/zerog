@@ -49,8 +49,35 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
       }
   };
 
-  // 0: Eye (Blending creative mastery)
+  // 0: Puzzle Piece (your brand, web & media partner)
   if (shapeIndex === 0) {
+      const svgPoints = [
+          // Circles from SVG
+          {x:817.17,y:144.01},{x:811.29,y:89.78},{x:778.83,y:49.06},{x:741.4,y:24.06},{x:693.66,y:12.5},{x:798.79,y:189.73},{x:782.35,y:235.44},{x:799.86,y:1110.07},{x:856.27,y:276.08},{x:909.37,y:276.08},{x:962.47,y:276.08},{x:1015.57,y:276.08},{x:1068.67,y:276.08},{x:1121.77,y:276.08},{x:1121.77,y:374.15},{x:1121.77,y:325.11},{x:1121.77,y:423.2},{x:1121.77,y:472.25},{x:1121.77,y:717.48},{x:1121.77,y:766.53},{x:1121.77,y:815.57},{x:1121.77,y:864.62},{x:1121.77,y:913.67},{x:1121.77,y:962.71},{x:1121.77,y:1011.76},{x:1121.77,y:1060.81},{x:1121.77,y:1110.07},{x:1121.77,y:668.43},{x:1121.77,y:570.34},{x:1121.77,y:619.39},{x:1121.77,y:521.29},{x:273.24,y:276.08},{x:273.24,y:374.44},{x:273.24,y:325.39},{x:273.24,y:423.48},{x:273.24,y:472.53},{x:273.24,y:815.86},{x:273.24,y:864.9},{x:273.24,y:913.95},{x:273.24,y:963},{x:273.24,y:1012.04},{x:273.24,y:1061.09},{x:273.24,y:1110.07},{x:273.24,y:570.62},{x:273.24,y:521.58},{x:325.27,y:276.08},{x:378.37,y:276.08},{x:431.47,y:276.08},{x:484.57,y:276.08},{x:537.67,y:276.08},{x:587.46,y:1110.07},
+          // Converted Paths to Points (Centers)
+          {x:569.4,y:144.01},{x:575.28,y:89.78},{x:607.74,y:49.06},{x:645.17,y:24.06},
+          // Circle in text
+          {x:587.78,y:189.73},
+          // Path
+          {x:604.22,y:235.44}, 
+          // Circles
+          {x:815.54,y:979.04},{x:809.66,y:924.81},{x:777.2,y:884.09},{x:739.77,y:859.09},{x:692.03,y:847.52},{x:797.16,y:1024.75},{x:780.72,y:1070.47},
+          // Path
+          {x:567.77,y:979.04}, 
+          // Circles
+          {x:573.65,y:924.81},{x:606.11,y:884.09},{x:643.54,y:859.09},{x:586.15,y:1024.75},{x:602.59,y:1070.47},{x:856.27,y:1110.07},{x:909.37,y:1110.07},{x:962.47,y:1110.07},{x:1015.57,y:1110.07},{x:1068.67,y:1110.07},{x:325.27,y:1110.07},{x:378.37,y:1110.07},{x:431.47,y:1110.07},{x:484.57,y:1110.07},{x:537.67,y:1110.07},{x:799.86,y:1110.07},{x:587.46,y:1110.07},{x:144.01,y:570.34},{x:89.78,y:576.22},{x:49.06,y:608.68},{x:24.06,y:646.11},{x:12.5,y:693.85},{x:189.73,y:588.72},{x:235.44,y:605.16},{x:144.01,y:818.11},{x:89.78,y:812.23},{x:49.06,y:779.77},{x:24.06,y:742.34},{x:189.73,y:799.73},{x:235.44,y:783.29}
+      ];
+      
+      const cx = 567;
+      const cy = 561;
+      const scale = 0.12;
+
+      svgPoints.forEach(p => {
+          add((p.x - cx) * scale, (p.y - cy) * scale);
+      });
+  }
+  // 1: Eye (Blending creative mastery)
+  else if (shapeIndex === 1) {
       const svgPoints = [
         // Top Left Brow
         {x:563.61, y:31.25}, {x:616.85, y:23.7}, {x:670.36, y:18.75}, {x:723.87, y:14.93}, {x:777.11, y:12.5},
@@ -106,8 +133,8 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
           add((p.x - cx) * scale, (p.y - cy) * scale);
       });
   }
-  // 1: Atom (With cutting edge innovation)
-  else if (shapeIndex === 1) {
+  // 2: Atom (With cutting edge innovation)
+  else if (shapeIndex === 2) {
      const orbits = 3;
      const pointsPerOrbit = 40;
      for(let o=0; o<orbits; o++) {
@@ -128,8 +155,8 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
      }
      add(0,0);
   }
-  // 2: Tool (To craft brands which are) -> Calipers
-  else if (shapeIndex === 2) {
+  // 3: Tool (To craft brands which are) -> Calipers
+  else if (shapeIndex === 3) {
       const svgPoints = [
           {x:12.5,y:1383.58},{x:23.03,y:1349.58},{x:33.55,y:1315.59},{x:44.07,y:1281.6},{x:54.59,y:1247.61},{x:65.11,y:1213.62},{x:75.63,y:1179.63},{x:86.16,y:1145.64},{x:96.68,y:1111.65},{x:107.2,y:1077.66},{x:117.72,y:1043.67},{x:128.24,y:1009.68},{x:149.29,y:941.7},{x:138.76,y:975.69},{x:159.81,y:907.71},{x:170.33,y:873.71},{x:180.85,y:839.72},{x:191.37,y:805.73},{x:201.9,y:771.74},{x:212.42,y:737.75},{x:222.94,y:703.76},{x:233.22,y:669.69},{x:243.74,y:635.7},{x:254.26,y:601.71},{x:264.78,y:567.72},{x:275.31,y:533.73},{x:285.83,y:499.74},{x:296.35,y:465.75},{x:306.87,y:431.76},{x:317.39,y:397.77},{x:327.91,y:363.78},{x:338.44,y:329.79},{x:348.96,y:295.8},{x:359.48,y:261.81},{x:370,y:227.81},{x:380.52,y:193.82},{x:391.04,y:159.83},{x:401.57,y:125.84},
           {x:782.07,y:1384.14},{x:771.55,y:1350.15},{x:761.03,y:1316.16},{x:750.5,y:1282.17},{x:739.98,y:1248.18},{x:729.46,y:1214.19},{x:718.94,y:1180.2},{x:708.42,y:1146.21},{x:697.89,y:1112.22},{x:687.37,y:1078.23},{x:676.85,y:1044.24},{x:655.81,y:976.25},{x:666.33,y:1010.24},{x:645.29,y:942.26},{x:634.76,y:908.27},{x:624.24,y:874.28},{x:613.72,y:840.29},{x:603.2,y:806.3},{x:592.68,y:772.31},{x:582.15,y:738.32},{x:571.88,y:704.25},{x:561.35,y:670.26},{x:550.83,y:636.27},{x:540.31,y:602.28},{x:529.79,y:568.29},{x:519.27,y:534.3},{x:508.74,y:500.31},{x:498.22,y:466.32},{x:487.7,y:432.33},{x:477.18,y:398.34},{x:466.66,y:364.35},{x:456.14,y:330.35},{x:445.61,y:296.36},{x:435.09,y:262.37},{x:424.57,y:228.38},{x:414.05,y:194.39},
@@ -147,8 +174,8 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
           add((p.x - cx) * scale, (p.y - cy) * scale);
       });
   }
-  // 3: Crosshair (Strategically sharp)
-  else if (shapeIndex === 3) {
+  // 4: Crosshair (Strategically sharp)
+  else if (shapeIndex === 4) {
       // Circle
       for(let i=0; i<90; i++) {
           const a = (i/90)*Math.PI*2;
@@ -168,8 +195,8 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
       // Center dot
       add(0,0);
   }
-  // 4: Flower (Visually stunning)
-  else if (shapeIndex === 4) {
+  // 5: Flower (Visually stunning)
+  else if (shapeIndex === 5) {
       const svgPoints = [
         {x:534.19, y:431.61}, {x:543.41, y:481.15}, {x:550.38, y:570.01}, {x:546.69, y:524.42}, {x:550.86, y:388.28}, 
         {x:506.1, y:378.07}, {x:468.25, y:361.2}, {x:469.25, y:318.61}, {x:513.1, y:300.25}, {x:561.91, y:299.25}, 
@@ -212,8 +239,8 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
           add((p.x - cx) * scale, (p.y - cy) * scale);
       });
   }
-  // 5: Heart (Emotionally resonant)
-  else if (shapeIndex === 5) {
+  // 6: Heart (Emotionally resonant)
+  else if (shapeIndex === 6) {
       for (let i = 0; i < 150; i++) {
           const t = (i / 150) * Math.PI * 2;
           const x = 16 * Math.pow(Math.sin(t), 3);
@@ -221,7 +248,7 @@ const getShapePoints = (shapeIndex: number): { x: number; y: number }[] => {
           add(x * 5, y * 5);
       }
   }
-  // 6: ZG Logo (Great ideas deserve great execution)
+  // 7: ZG Logo (Great ideas deserve great execution)
   else {
       // Corrected coordinates from SVG provided
       const svgPoints = [
@@ -295,7 +322,7 @@ export const DotMorph: React.FC<DotMorphProps> = ({ progress }) => {
     // --- Transition Logic ---
     // Update: Phrases end earlier to allow for static delay at the end
     const PHRASE_END = 0.75; 
-    const PHRASE_COUNT = 6; 
+    const PHRASE_COUNT = 7; 
     const STEP = PHRASE_END / PHRASE_COUNT; 
 
     let currentShapeIdx = 0;
@@ -308,9 +335,9 @@ export const DotMorph: React.FC<DotMorphProps> = ({ progress }) => {
         currentShapeIdx = Math.floor(rawIndex);
         nextShapeIdx = currentShapeIdx + 1;
         
-        // Ensure index doesn't exceed bounds
-        if (nextShapeIdx > 5) nextShapeIdx = 5;
-        if (currentShapeIdx > 5) currentShapeIdx = 5;
+        // Ensure index doesn't exceed bounds (0-6)
+        if (nextShapeIdx > 6) nextShapeIdx = 6;
+        if (currentShapeIdx > 6) currentShapeIdx = 6;
         
         // Local progress within the current phrase (0 to 1)
         const localProgress = rawIndex - currentShapeIdx;
@@ -329,8 +356,8 @@ export const DotMorph: React.FC<DotMorphProps> = ({ progress }) => {
     } else {
         // Final transition to ZG Logo
         // We want the morph to complete by progress=0.9, leaving 0.9-1.0 as static
-        currentShapeIdx = 5;
-        nextShapeIdx = 6;
+        currentShapeIdx = 6;
+        nextShapeIdx = 7;
         
         // Map range [0.75, 0.9] to [0, 1]
         morphT = (progress - PHRASE_END) / (0.9 - PHRASE_END);

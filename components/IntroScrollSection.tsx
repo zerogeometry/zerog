@@ -5,6 +5,7 @@ import { DotMorph } from './DotMorph';
 import { PageView } from '../types';
 
 const INTRO_PHRASES = [
+  "your brand, web & media partner",
   "blending creative mastery",
   "with cutting edge innovation",
   "to craft brands which are",

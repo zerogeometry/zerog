@@ -17,39 +17,20 @@ const REELS = [
   },
   { 
     id: 2, 
-    title: 'Neon Horizons', 
-    tags: ['Web Experience', 'Creative Tech'], 
+    title: 'Impactful', 
+    tags: [], 
     // new premium placeholder_00005.png
-    img: 'https://lh3.googleusercontent.com/d/1pwanPCzZ1qxDcc9pKXCQqGDGJZysmJcG'
+    img: 'https://lh3.googleusercontent.com/d/1pwanPCzZ1qxDcc9pKXCQqGDGJZysmJcG',
+    video: '1163664298'
   },
   { 
     id: 3, 
-    title: 'Abstract Flow', 
-    tags: ['Brand Identity', '3D Design'], 
+    title: 'Innovative', 
+    tags: [], 
     // premium placeholder_00006.png
-    img: 'https://lh3.googleusercontent.com/d/1DzY7lHG2a7VvqNqPeqygEHaIZ5p0Z5B0'
-  },
-  { 
-    id: 4, 
-    title: 'Geometric Harmony', 
-    tags: ['Typography', 'Motion'], 
-    // new premium placeholder_00004.png
-    img: 'https://lh3.googleusercontent.com/d/16oqETDgUYe5u1b8PZanPf75Z2uuZC4MX'
-  },
-  { 
-    id: 5, 
-    title: 'Dark Matter', 
-    tags: ['Art Direction', 'Campaign'], 
-    // premium placeholder_00003.png
-    img: 'https://lh3.googleusercontent.com/d/19mUYMcAYKncjHoiV0p7UfcxFKicuOMeL'
-  },
-  { 
-    id: 6, 
-    title: 'Echo Chamber', 
-    tags: ['Digital', 'Sound Design'], 
-    // new premium placeholder_00000.png
-    img: 'https://lh3.googleusercontent.com/d/1ddDhmsPFDxTLyve-1A1Fgpy0xfnIv-fP'
-  },
+    img: 'https://lh3.googleusercontent.com/d/1DzY7lHG2a7VvqNqPeqygEHaIZ5p0Z5B0',
+    video: '1163667194'
+  }
 ];
 
 interface HomePageProps {
@@ -156,17 +137,35 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
              key={reel.id} 
              className="snap-center h-screen w-full relative group border-b border-white/20 last:border-0 overflow-hidden"
              data-cursor-hover="true"
-             data-cursor-preview={reel.img}
            >
              <div className="absolute inset-0 w-full h-full">
-               <img src={reel.img} alt={reel.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
-               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+               {/* Conditional Render: Video or Image */}
+               {reel.video ? (
+                  <div className="absolute inset-0 w-full h-full overflow-hidden">
+                    <iframe 
+                      src={`https://player.vimeo.com/video/${reel.video}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1`}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-60 group-hover:opacity-40 transition-opacity duration-700"
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      style={{ 
+                          width: '100vw', 
+                          height: '56.25vw', 
+                          minHeight: '100vh',
+                          minWidth: '177.77vh', 
+                      }}
+                    />
+                  </div>
+               ) : (
+                  <img src={reel.img} alt={reel.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
+               )}
+               
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90 pointer-events-none"></div>
              </div>
              
              {/* Content: Aligned to px-6 (24px) on mobile to match logo, 100px on desktop. Vertically centered. */}
              <div className="absolute inset-0 px-6 md:px-[100px] z-20 pointer-events-none mix-blend-difference flex flex-col justify-center items-start">
                 <div className="max-w-4xl text-left">
-                    <h3 className="text-4xl md:text-6xl font-bold text-white mb-3.5 tracking-tighter opacity-100 transition-all duration-700">
+                    <h3 className="text-5xl md:text-9xl font-bold text-white mb-3.5 tracking-tighter opacity-100 transition-all duration-700">
                       {reel.title}
                     </h3>
                     <div className="flex flex-wrap gap-2.5 opacity-100 transition-all duration-500 delay-100">
