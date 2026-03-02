@@ -92,10 +92,10 @@ export const IntroScrollSection: React.FC<IntroScrollSectionProps> = ({ onNaviga
 
   // Font Size Logic: 
   // Mobile: Reduced slightly to ensure "cutting edge innovation" fits (0.9rem - 1.3rem)
-  // Desktop: Reduced slightly from previous version (1.66rem -> 1.4rem start, 4.1rem -> 3.5rem end)
+  // Desktop: 1.66rem min
   const baseFontSize = isMobile 
     ? 'clamp(0.9rem, 4vw, 1.3rem)' 
-    : 'clamp(1.4rem, 3.5vw, 3.5rem)';
+    : 'clamp(1.3rem, 3.4vw, 3.4rem)';
 
   return (
     <section 

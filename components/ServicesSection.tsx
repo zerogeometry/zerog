@@ -5,55 +5,38 @@ import { InteractiveGrid } from './InteractiveGrid';
 
 const SERVICES_DATA = [
   { 
-    id: '1', 
-    title: 'Brand Strategy', 
-    desc: 'Discovering the authentic soul of your business to define a positioning that resonates, through rigorous market analysis, competitor landscaping, and archetypal mapping.',
-    // new premium placeholder_00003.png
-    img: 'https://lh3.googleusercontent.com/d/1tlXBpApTDxUb_JYX3jVRJXEu2h69kFh0' 
-  },
-  { 
-    id: '2', 
-    title: 'Brand Design', 
-    desc: 'Crafting identities that sing to all senses, expressing your authentic brand personality through iconography, typography and storytelling.',
-    // premium placeholder_00001.png
+    id: '01', 
+    title: 'Brand', 
+    desc: 'Discovering the soul and DNA of your business',
     img: 'https://lh3.googleusercontent.com/d/1xtJaO6OqHvtNXwYTOGQXUtXeois0sogT' 
   },
   { 
-    id: '3', 
-    title: 'Product Design', 
-    desc: 'Designing physical items with precision and bringing them to market with creative campaigns, demonstrations, and modern immersive experiences.',
-    // new premium placeholder_00002.png
+    id: '02', 
+    title: 'Product', 
+    desc: 'Design excellence in the physical and digital worlds',
     img: 'https://lh3.googleusercontent.com/d/139JuKvXqaLfpbdAbTtDzap1cyos9BYpF' 
   },
   { 
-    id: '4', 
-    title: 'Web Design & Build', 
-    desc: 'High performance apps and websites which blend functional utility with motion-rich user experience. Engineered for resonance, engagement and retention.',
-    // premium placeholder_00002.png
+    id: '03', 
+    title: 'Web', 
+    desc: 'Engineered for resonance, engagement and retention',
     img: 'https://lh3.googleusercontent.com/d/1dAKVlcZ_nVZjda8XpeZ11HU7JMbwRd3e' 
   },
   { 
-    id: '5', 
-    title: 'Graphics & Motion', 
-    desc: 'Breathing life into brands with compelling visuals, gripping video storytelling, and impactful media and marketing assets.',
-    // new premium placeholder_00001.png
+    id: '04', 
+    title: 'Media', 
+    desc: 'Visual storytelling and immersive experiences',
     img: 'https://lh3.googleusercontent.com/d/1TdWoZFxnjb_3ZwvsJpFEGPHk9RbOMnuH' 
-  },
-  { 
-    id: '6', 
-    title: 'Content', 
-    desc: 'Platforming your product, services and team to create new touchpoints, build trust, and strengthen your brand culture and community.',
-    // premium placeholder_00005.png
-    img: 'https://lh3.googleusercontent.com/d/1-GVp1BghAY8fom_2oeSbNMOoDj28qHo_' 
   },
 ];
 
 interface ServicesSectionProps {
   onNavigate: (page: PageView) => void;
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+  onServiceSelect?: (id: string) => void;
 }
 
-export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, scrollContainerRef }) => {
+export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, scrollContainerRef, onServiceSelect }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -93,6 +76,15 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
     }
     return () => scrollEl?.removeEventListener('scroll', handleScroll);
   }, [scrollContainerRef]);
+
+  const handleLearnMore = () => {
+    const currentService = SERVICES_DATA[activeIndex];
+    if (onServiceSelect) {
+      onServiceSelect(currentService.id);
+    } else {
+      onNavigate('services');
+    }
+  };
 
   return (
     <section 
@@ -196,22 +188,27 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate, sc
              {/* Description - Fixed Height Container */}
              {/* 
                  Mobile Optimization: 
-                 1. Reduced height to 80px (was 110px).
+                 1. Reduced height to 60px (was 80px).
                  2. Reduced top margin to mt-3 (was mt-4).
                  3. Reduced text size to text-[10px] (was text-xs).
              */}
-             <div className="h-[80px] lg:h-[160px] w-full flex flex-col items-center lg:items-start text-center lg:text-left mt-3 lg:mt-8 justify-start">
-                  <h3 className="hidden lg:block text-2xl font-bold mb-3 text-black font-poppins">{SERVICES_DATA[activeIndex].title}</h3>
-                  
+             <div className="h-[60px] lg:h-[100px] w-full flex flex-col items-center lg:items-start text-center lg:text-left mt-3 lg:mt-6 justify-start">
                   <p className="text-[10px] lg:text-base text-gray-700 font-mono leading-relaxed max-w-lg lg:border-l-2 pl-0 lg:pl-4 border-black/20">
                       {SERVICES_DATA[activeIndex].desc}
                   </p>
              </div>
 
-             {/* CTA Button - Fixed Position via Parent Flow */}
-             <div className="mt-2 lg:mt-0">
+             {/* CTA Buttons - Fixed Position via Parent Flow */}
+             <div className="mt-1 lg:mt-0 flex flex-col gap-2 lg:gap-3 w-full max-w-[320px] items-center lg:items-start">
                  <button 
-                   className="px-10 lg:px-12 py-4 lg:py-5 bg-white border border-black text-black text-sm lg:text-sm font-bold rounded-full hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                   className="w-full px-10 lg:px-12 py-3 lg:py-5 bg-white border border-black text-black text-sm lg:text-sm font-bold rounded-full hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                   onClick={handleLearnMore}
+                 >
+                    Learn More
+                 </button>
+                 
+                 <button 
+                   className="w-full px-10 lg:px-12 py-3 lg:py-5 bg-white border border-black text-black text-sm lg:text-sm font-bold rounded-full hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-1"
                    onClick={() => onNavigate('contact')}
                  >
                     Make an Appointment

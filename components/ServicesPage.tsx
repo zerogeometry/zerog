@@ -4,6 +4,12 @@ import { Logo } from './Logo';
 
 interface ServicesPageProps {
   onBack: () => void;
+  initialServiceId?: string | null;
+}
+
+interface SubService {
+  name: string;
+  description: string;
 }
 
 interface ServiceData {
@@ -11,7 +17,7 @@ interface ServiceData {
   title: string;
   description: string;
   image: string;
-  subservices: string[];
+  subservices: SubService[];
 }
 
 const SERVICES_DATA: ServiceData[] = [
@@ -20,34 +26,81 @@ const SERVICES_DATA: ServiceData[] = [
     title: 'Brand',
     description: 'Discovering the soul and DNA of your business',
     image: 'https://lh3.googleusercontent.com/d/1xtJaO6OqHvtNXwYTOGQXUtXeois0sogT',
-    subservices: ['Market Research', 'Brand Strategy', 'Visual Identity', 'Verbal Identity', 'Brand Guidelines', 'Values & Lore', 'Rebranding']
+    subservices: [
+      { name: 'Brand Strategy & Research', description: 'Data-driven insights to define your market position, target audience, and long-term roadmap for growth.' },
+      { name: 'Brand Positioning', description: 'Strategic alignment of your offering to stand out, capture market share, and dominate your niche.' },
+      { name: 'Visual Identity Systems', description: 'Distinctive logos, typography, and design frameworks that make your brand instantly recognizable.' },
+      { name: 'Verbal Identity & Narrative', description: 'Compelling messaging, tone of voice, and brand stories that resonate deeply with your ideal customers.' },
+      { name: 'Rebranding', description: 'Strategic brand evolution to help you pivot, modernize, and reignite growth in a crowded landscape.' }
+    ]
   },
   {
     id: '02',
     title: 'Product',
     description: 'Design excellence in the physical and digital worlds',
     image: 'https://lh3.googleusercontent.com/d/139JuKvXqaLfpbdAbTtDzap1cyos9BYpF',
-    subservices: ['User Research', 'Prototyping & Design', 'Marketing Assets', 'Infographics', 'Product Demos', 'Exhibition Design']
+    subservices: [
+      { name: 'UX/UI & Prototyping', description: 'Intuitive interfaces and interactive prototypes that validate ideas and guarantee seamless user journeys.' },
+      { name: 'Product Visualization & Demos', description: 'Stunning 3D renders and interactive demos that clearly communicate your product\'s value before launch.' },
+      { name: 'Spatial & Exhibition Design', description: 'Immersive physical environments and booth designs that captivate audiences and drive in-person engagement.' },
+      { name: 'Go-To-Market Assets', description: 'High-converting pitch decks, sales materials, and launch collateral designed to accelerate adoption.' }
+    ]
   },
   {
     id: '03',
     title: 'Web',
     description: 'Engineered for resonance, engagement and retention',
     image: 'https://lh3.googleusercontent.com/d/1dAKVlcZ_nVZjda8XpeZ11HU7JMbwRd3e',
-    subservices: ['UX & UI', 'Frontend & Backend', 'WebGL & 3D', 'CRM & CMS Systems', 'SEO Strategy', 'AI Agents & Automation', 'Blockchain Integrations']
+    subservices: [
+      { name: 'UI/UX', description: 'Frictionless, beautifully crafted web interfaces engineered to maximize user engagement and conversions.' },
+      { name: 'Full-Stack Development & CMS', description: 'Robust, scalable web builds and seamless content management systems tailored to your business operations.' },
+      { name: 'Immersive Web (WebGL & 3D)', description: 'Cutting-edge, interactive 3D web experiences that captivate users and set you apart from competitors.' },
+      { name: 'AI Agents & Automation', description: 'Intelligent tools and automated workflows that streamline operations and elevate your customer support.' },
+      { name: 'Technical SEO & Performance', description: 'Optimized site speeds and search architectures that guarantee top-tier visibility and organic traffic.' }
+    ]
   },
   {
     id: '04',
     title: 'Media',
     description: 'Visual storytelling and immersive experiences',
     image: 'https://lh3.googleusercontent.com/d/1TdWoZFxnjb_3ZwvsJpFEGPHk9RbOMnuH',
-    subservices: ['Creative Direction', 'Graphics', 'Motion Video Production', '2D & 3D Animation', 'Content & Campaign Assets', 'VR & AR Experiences', 'Projection Mapping']
+    subservices: [
+      { name: 'Creative & Art Direction', description: 'High-level aesthetic leadership to ensure all your visual touchpoints align with your core brand vision.' },
+      { name: 'Video & Motion Design', description: 'Cinematic video production and dynamic animations that tell your story and capture audience attention.' },
+      { name: 'Campaign & Content Production', description: 'High-impact digital and print assets designed to fuel your marketing campaigns and drive real action.' },
+      { name: 'Immersive & Experiential Media', description: 'Boundary-pushing AR, VR, and projection mapping that turn passive viewers into active participants.' }
+    ]
   }
 ];
 
-export const ServicesPage: React.FC<ServicesPageProps> = ({ onBack }) => {
+export const ServicesPage: React.FC<ServicesPageProps> = ({ onBack, initialServiceId }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lastScrollTime, setLastScrollTime] = useState(0);
+
+  // New State for Subservice Interactions
+  const [hoveredSubservice, setHoveredSubservice] = useState<SubService | null>(null);
+  const [expandedIndices, setExpandedIndices] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (initialServiceId) {
+      const index = SERVICES_DATA.findIndex(s => s.id === initialServiceId);
+      if (index !== -1) {
+        setActiveIndex(index);
+      }
+    }
+  }, [initialServiceId]);
+
+  // Reset interaction states when activeIndex changes
+  useEffect(() => {
+     setExpandedIndices([]);
+     setHoveredSubservice(null);
+  }, [activeIndex]);
+
+  const toggleExpansion = (index: number) => {
+    setExpandedIndices(prev =>
+        prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+    );
+  };
 
   // Swipe State
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -184,13 +237,25 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBack }) => {
                   {activeService.subservices.map((sub, i) => (
                       <div 
                         key={`${activeService.id}-${i}`} 
-                        className="py-3 border-b border-white/10 flex justify-between items-center group/item animate-in slide-in-from-right-4 fade-in duration-500"
+                        className="border-b border-white/10 animate-in slide-in-from-right-4 fade-in duration-500"
                         style={{ animationDelay: `${i * 30}ms`, animationFillMode: 'both' }}
                       >
-                          <span className="text-sm font-light text-gray-500">
-                              {sub}
-                          </span>
-                          <div className="w-1 h-1 rounded-full bg-[#ccff00] opacity-50" />
+                          <div 
+                              className="py-3 flex justify-between items-center group/item cursor-pointer"
+                              onClick={() => toggleExpansion(i)}
+                          >
+                              <span className={`text-sm font-light transition-colors duration-300 ${expandedIndices.includes(i) ? 'text-white' : 'text-gray-500'}`}>
+                                  {sub.name}
+                              </span>
+                              <div className={`w-1 h-1 rounded-full bg-[#ccff00] transition-opacity duration-300 ${expandedIndices.includes(i) ? 'opacity-100' : 'opacity-50'}`} />
+                          </div>
+                          
+                          {/* Expanded Content */}
+                          {expandedIndices.includes(i) && (
+                              <div className="pb-4 pr-4 text-xs text-gray-400 font-mono leading-relaxed animate-in slide-in-from-top-2 fade-in duration-300">
+                                  {sub.description}
+                              </div>
+                          )}
                       </div>
                   ))}
               </div>
@@ -291,13 +356,35 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBack }) => {
                         key={`${activeService.id}-${i}`} 
                         className="py-3 md:py-4 border-b border-white/10 flex justify-between items-center group/item animate-in slide-in-from-right-4 fade-in duration-500 cursor-default"
                         style={{ animationDelay: `${i * 50}ms`, animationFillMode: 'both' }}
+                        onMouseEnter={() => setHoveredSubservice(sub)}
+                        onMouseLeave={() => setHoveredSubservice(null)}
                       >
-                          <span className="text-sm md:text-lg font-light text-gray-500 group-hover/item:text-white transition-colors duration-300">
-                              {sub}
+                          <span className={`text-sm md:text-base font-light transition-colors duration-300 ${hoveredSubservice?.name === sub.name ? 'text-white' : 'text-gray-500 group-hover/item:text-white'}`}>
+                              {sub.name}
                           </span>
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#ccff00] opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                          <div className={`w-1.5 h-1.5 rounded-full bg-[#ccff00] transition-opacity duration-300 ${hoveredSubservice?.name === sub.name ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100'}`} />
                       </div>
                   ))}
+              </div>
+
+              {/* Description Container */}
+              {/* 
+                  Updated:
+                  - Removed border/bg (transparent)
+                  - Increased top margin (mt-16)
+                  - Fixed height (h-[100px]) to prevent layout shift
+                  - Removed padding (p-0) to align with text
+              */}
+              <div className="mt-16 h-[100px] flex items-start transition-all duration-300">
+                  {hoveredSubservice ? (
+                      <p className="text-sm text-gray-300 animate-in fade-in slide-in-from-top-1 duration-200 font-mono leading-relaxed">
+                          {hoveredSubservice.description}
+                      </p>
+                  ) : (
+                      <p className="text-sm text-gray-600 italic font-mono">
+                          Hover over a service to learn more.
+                      </p>
+                  )}
               </div>
 
           </div>

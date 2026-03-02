@@ -35,9 +35,10 @@ const REELS = [
 
 interface HomePageProps {
   onNavigate: (page: PageView) => void;
+  onServiceSelect?: (id: string) => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onServiceSelect }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   
@@ -45,10 +46,51 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [videoInitialized, setVideoInitialized] = useState(false);
   const [imageVisible, setImageVisible] = useState(true);
 
+  // Scroll Restoration State
+  const [savedScrollPosition, setSavedScrollPosition] = useState(0);
+
   useEffect(() => {
     // Trigger fade in after mount
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Restore scroll position when component mounts (if returning from another page)
+  // Note: This simple implementation assumes the component is unmounted/remounted.
+  // If the component stays mounted but hidden, we might need a different approach.
+  // However, based on typical router behavior or conditional rendering in App.tsx,
+  // we can try to restore scroll if we have a way to persist it.
+  // Since this is a single page app where HomePage might be unmounted, we need to lift state up or use a ref that persists.
+  // BUT, the user request specifically mentions "after I click the burger menu, navigate to a page, and then close the page".
+  // This implies the HomePage is re-rendered or re-shown.
+  
+  // Let's use a session storage or a global variable approach if we can't lift state easily without changing App.tsx too much.
+  // Actually, the simplest way for "close the page" (which implies going back to Home) is to save scroll position BEFORE navigation.
+  
+  // We can save scroll position when the menu is opened.
+  const handleMenuOpen = () => {
+    if (scrollContainerRef.current) {
+        setSavedScrollPosition(scrollContainerRef.current.scrollTop);
+        // Also save to sessionStorage as a backup in case of unmount
+        sessionStorage.setItem('homePageScrollPosition', scrollContainerRef.current.scrollTop.toString());
+    }
+  };
+
+  useEffect(() => {
+      // Check for saved scroll position on mount
+      const saved = sessionStorage.getItem('homePageScrollPosition');
+      if (saved && scrollContainerRef.current) {
+          const scrollTop = parseInt(saved, 10);
+          // Small timeout to ensure layout is ready
+          setTimeout(() => {
+            if (scrollContainerRef.current) {
+                scrollContainerRef.current.scrollTop = scrollTop;
+            }
+          }, 100);
+          // Clear it so it doesn't persist forever if we don't want it to
+          // But for "back" functionality, keeping it might be okay until explicitly cleared.
+          // Let's clear it only if we want fresh start on reload, but here we want to restore.
+      }
   }, []);
 
   const handleVideoLoad = () => {
@@ -86,7 +128,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         className={`fixed inset-0 bg-[#0a0a0a] z-[10000] pointer-events-none transition-opacity duration-1000 ease-out ${isLoaded ? 'opacity-0' : 'opacity-100'}`} 
       />
 
-      <Navigation onNavigate={onNavigate} scrollContainerRef={scrollContainerRef} />
+      <Navigation onNavigate={onNavigate} scrollContainerRef={scrollContainerRef} onMenuOpen={handleMenuOpen} />
       
       {/* 1. Hero Reel Landing Section */}
       {/* Set height to exact 100dvh (dynamic viewport height) and removed sticky positioning to allow immediate scroll to next section */}
@@ -187,7 +229,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Orbiting Services Section */}
-      <ServicesSection onNavigate={onNavigate} scrollContainerRef={scrollContainerRef} />
+      <ServicesSection onNavigate={onNavigate} scrollContainerRef={scrollContainerRef} onServiceSelect={onServiceSelect} />
 
       {/* Our Work Mosaic Grid */}
       <WorkMosaic onNavigate={onNavigate} />

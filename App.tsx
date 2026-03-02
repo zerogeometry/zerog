@@ -13,6 +13,12 @@ const App: React.FC = () => {
   // Navigation State
   const [currentPage, setCurrentPage] = useState<PageView>('home');
   const [showIntro, setShowIntro] = useState(true);
+  const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
+
+  const handleServiceSelect = (id: string) => {
+    setActiveServiceId(id);
+    setCurrentPage('services');
+  };
 
   return (
     <>
@@ -25,13 +31,13 @@ const App: React.FC = () => {
           <CustomCursor />
           
           {currentPage === 'home' && (
-            <HomePage onNavigate={setCurrentPage} />
+            <HomePage onNavigate={setCurrentPage} onServiceSelect={handleServiceSelect} />
           )}
           {currentPage === 'about' && (
             <AboutPage onBack={() => setCurrentPage('home')} />
           )}
           {currentPage === 'services' && (
-            <ServicesPage onBack={() => setCurrentPage('home')} />
+            <ServicesPage onBack={() => setCurrentPage('home')} initialServiceId={activeServiceId} />
           )}
           {currentPage === 'work' && (
             <WorkPage onBack={() => setCurrentPage('home')} />

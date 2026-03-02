@@ -8,16 +8,16 @@ interface WorkMosaicProps {
 export const WorkMosaic: React.FC<WorkMosaicProps> = ({ onNavigate }) => {
   const containerRef = useRef<HTMLElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  // Assume we are unmuted initially (intent) so the first click will MUTE it.
-  const [isMuted, setIsMuted] = useState(false);
+  // Assume we are muted initially
+  const [isMuted, setIsMuted] = useState(true);
 
   // Vimeo ID
   const VIMEO_ID = '1164393101';
   
   // URL Configuration:
-  // muted=0: Try to start with sound ON
+  // muted=1: Start with sound OFF
   // autoplay=1: Try to start playing immediately
-  const iframeSrc = `https://player.vimeo.com/video/${VIMEO_ID}?autoplay=1&loop=1&autopause=0&muted=0&controls=0&background=0&title=0&byline=0&portrait=0&dnt=1&playsinline=1`;
+  const iframeSrc = `https://player.vimeo.com/video/${VIMEO_ID}?autoplay=1&loop=1&autopause=0&muted=1&controls=0&background=0&title=0&byline=0&portrait=0&dnt=1&playsinline=1`;
 
   const postToVimeo = (method: string, value?: any) => {
     if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -35,9 +35,7 @@ export const WorkMosaic: React.FC<WorkMosaicProps> = ({ onNavigate }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Attempt to force play + unmute when visible
-            postToVimeo('setVolume', 1);
-            postToVimeo('setMuted', false);
+            // Attempt to force play when visible (but keep muted)
             postToVimeo('play');
           } else {
             postToVimeo('pause');

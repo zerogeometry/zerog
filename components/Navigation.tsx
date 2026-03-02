@@ -7,9 +7,10 @@ import { PageView } from '../types';
 interface NavigationProps {
   onNavigate: (page: PageView) => void;
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+  onMenuOpen?: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ onNavigate, scrollContainerRef }) => {
+export const Navigation: React.FC<NavigationProps> = ({ onNavigate, scrollContainerRef, onMenuOpen }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
@@ -42,6 +43,13 @@ export const Navigation: React.FC<NavigationProps> = ({ onNavigate, scrollContai
 
   const handleScrollToTop = () => {
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleMenuOpen = () => {
+    if (onMenuOpen) {
+        onMenuOpen();
+    }
+    setIsMenuOpen(true);
   };
 
   // Branding sizes
@@ -88,7 +96,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onNavigate, scrollContai
             
             <button 
               className="p-2 hover:opacity-70 transition-opacity"
-              onClick={() => setIsMenuOpen(true)}
+              onClick={handleMenuOpen}
             >
               <Menu size={windowWidth >= 768 ? 48 : 32} strokeWidth={1} />
             </button>
